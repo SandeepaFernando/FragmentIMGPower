@@ -1,0 +1,21 @@
+
+o
+?app/src/main/java/com/example/bottemnavipower/SiteFragment.java,b/a/bad07e45cc771c4810e7174a9b783d12007929cf
+p
+@app/src/main/java/com/example/bottemnavipower/TowerFragment.java,9/a/9a65a1eae3d9aa0397d17fb21d5f460161f1baa7
+p
+@app/src/main/java/com/example/bottemnavipower/CabinFragment.java,5/3/5349a5165bf7ded3fee19c4b96c3c47c3c3df2e4
+o
+?app/src/main/java/com/example/bottemnavipower/MainActivity.java,1/7/171fb9fd9130ea4c6cc470443ff1fff7928746e8
+h
+8app/src/main/java/com/example/bottemnavipower/Tools.java,c/f/cfd2c57b44c907b3747429b248938a55b2cb469b
+q
+Aapp/src/main/java/com/example/bottemnavipower/CameraActivity.java,3/2/321997e73e3871c3fafb4a111183d4646ada3d32
+t
+Dapp/src/main/java/com/example/bottemnavipower/MediaStoreAdapter.java,0/3/03b0cc34a7839192fdccfcb71167d4023edf351f
+~
+Napp/src/main/java/com/example/bottemnavipower/ShowLivePreviewCameraWindow.java,b/1/b1bc6a8987dceec77255a6f552f7869d2437ed49
+P
+ app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
+@
+app/build.gradle,f/4/f4a01d6a4fcb971362ec00a83903fd3902f52164

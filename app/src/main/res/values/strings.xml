@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">BottemNaviPower</string>
+    <string name="title_cabin">CABIN</string>
+    <string name="title_site">SITE</string>
+    <string name="title_tower">TOWER</string>
+    <string name="upload_bn">Upload</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
