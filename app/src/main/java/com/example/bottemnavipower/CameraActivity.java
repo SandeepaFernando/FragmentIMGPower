@@ -33,14 +33,8 @@ public class CameraActivity extends AppCompatActivity {
         bnCamera = findViewById(R.id.camera_button);
         previewImage = findViewById(R.id.preview);
 
-        bnCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cameraIntent();
-                createdirectory();
-            }
-        });
-
+        cameraIntent();
+        createdirectory();
 
     }
 
