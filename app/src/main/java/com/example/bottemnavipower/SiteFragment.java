@@ -13,7 +13,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
@@ -33,13 +32,13 @@ import java.util.Objects;
 public class SiteFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private final static int PERMMISSION_RESULT = 1;
     private final static int MEDIASTORE_LOADER_ID = 0;
-    //public static MediaStoreAdapter mMediaStoreAdapter;
     public static SiteMeadiaAdapter msiteMeadiaAdapter;
     private RecyclerView mThumbnailRecyclerView;
     android.hardware.Camera camera;
     FrameLayout camFrame;
     ShowLivePreviewCameraWindow showCameraWindow;
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,42 +49,16 @@ public class SiteFragment extends Fragment implements LoaderManager.LoaderCallba
         mThumbnailRecyclerView = view.findViewById(R.id.thumbnailRecyclerview);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         mThumbnailRecyclerView.setLayoutManager(gridLayoutManager);
-//        mMediaStoreAdapter = new MediaStoreAdapter(getActivity());
-//        mThumbnailRecyclerView.setAdapter(mMediaStoreAdapter);
 
         msiteMeadiaAdapter = new SiteMeadiaAdapter(getActivity());
         mThumbnailRecyclerView.setAdapter(msiteMeadiaAdapter);
 
-//        mMediaStoreAdapter.setOnClickListener(new MediaStoreAdapter.OnClickListener() {
-//            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-//            @Override
-//            public void onItemClick(View view, int pos) {
-//                if (mMediaStoreAdapter.getSelectedItemCount() > 0) {
-//                    //enableActionMode(pos);
-//                    ((MainActivity) Objects.requireNonNull(getActivity())).enableActionModeForSite(pos);
-//                    Log.i("LONGCLICK", "clickedAfterLong");
-//                } else {
-//                    // read the inbox which removes bold from the row
-//                    Log.i("CLICK", "clicked");
-//
-//                }
-//            }
-//
-//            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-//            @Override
-//            public void OnItemLongClick(View view, Uri uri, int position) {
-//                Log.i("LONGCLIK", "long clicked");
-//                //enableActionMode(position);
-//                ((MainActivity) Objects.requireNonNull(getActivity())).enableActionModeForSite(position);
-//            }
-//        });
 
         msiteMeadiaAdapter.setOnClickListener(new SiteMeadiaAdapter.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onItemClick(View view, int pos) {
                 if (msiteMeadiaAdapter.getSelectedItemCount() > 0) {
-                    //enableActionMode(pos);
                     ((MainActivity) Objects.requireNonNull(getActivity())).enableActionModeForSite(pos);
                     Log.i("LONGCLICK", "clickedAfterLong");
                 } else {
@@ -104,7 +77,7 @@ public class SiteFragment extends Fragment implements LoaderManager.LoaderCallba
 
         verifyUserPermission();
 
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             Log.i("CAMERAPERMISSION", "Granted");
 
             camFrame.setOnClickListener(new View.OnClickListener() {
@@ -112,8 +85,6 @@ public class SiteFragment extends Fragment implements LoaderManager.LoaderCallba
                 public void onClick(View v) {
                     Intent camintent = new Intent(getContext(), CameraActivity.class);
                     startActivity(camintent);
-                    //camera.stopPreview();
-                    //camera.release();
                 }
             });
         }
@@ -121,6 +92,7 @@ public class SiteFragment extends Fragment implements LoaderManager.LoaderCallba
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (ContextCompat.checkSelfPermission(this.getContext(),
@@ -168,6 +140,7 @@ public class SiteFragment extends Fragment implements LoaderManager.LoaderCallba
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -181,7 +154,7 @@ public class SiteFragment extends Fragment implements LoaderManager.LoaderCallba
                 + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
         return new CursorLoader(
-                getContext(),
+                Objects.requireNonNull(getContext()),
                 MediaStore.Files.getContentUri("external"),
                 projection,
                 selection,
@@ -200,8 +173,9 @@ public class SiteFragment extends Fragment implements LoaderManager.LoaderCallba
         msiteMeadiaAdapter.changeCursor(null);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void camera_window() {
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             showCameraWindow = new ShowLivePreviewCameraWindow(getContext(), camera);
             camFrame.addView(showCameraWindow);
         }

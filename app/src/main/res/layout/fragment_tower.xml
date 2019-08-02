@@ -5,6 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".TowerFragment">
 
-    <!--<include layout="@layout/main_layout"/>-->
+    <include layout="@layout/main_layout"/>
 
 </FrameLayout>

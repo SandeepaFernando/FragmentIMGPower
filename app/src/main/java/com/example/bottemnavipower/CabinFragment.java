@@ -1,7 +1,6 @@
 package com.example.bottemnavipower;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -18,13 +17,10 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.view.ActionMode;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -42,8 +38,6 @@ public class CabinFragment extends Fragment implements LoaderManager.LoaderCallb
     android.hardware.Camera camera;
     FrameLayout camFrame;
     ShowLivePreviewCameraWindow showCameraWindow;
-    private ActionMode actionMode;
-
 
     @Nullable
     @Override
@@ -63,7 +57,6 @@ public class CabinFragment extends Fragment implements LoaderManager.LoaderCallb
             @Override
             public void onItemClick(View view, int pos) {
                 if (mMediaStoreAdapter.getSelectedItemCount() > 0) {
-                    //enableActionMode(pos);
                     ((MainActivity) Objects.requireNonNull(getActivity())).enableActionMode(pos);
                     Log.i("LONGCLICK", "clickedAfterLong");
                 } else {
@@ -77,7 +70,6 @@ public class CabinFragment extends Fragment implements LoaderManager.LoaderCallb
             @Override
             public void OnItemLongClick(View view, Uri uri, int position) {
                 Log.i("LONGCLIK", "long clicked");
-                //enableActionMode(position);
                 ((MainActivity) Objects.requireNonNull(getActivity())).enableActionMode(position);
             }
         });
@@ -101,6 +93,7 @@ public class CabinFragment extends Fragment implements LoaderManager.LoaderCallb
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -115,7 +108,7 @@ public class CabinFragment extends Fragment implements LoaderManager.LoaderCallb
 
             }
         }
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             camera_window();
         }
 
@@ -149,6 +142,7 @@ public class CabinFragment extends Fragment implements LoaderManager.LoaderCallb
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -162,7 +156,7 @@ public class CabinFragment extends Fragment implements LoaderManager.LoaderCallb
                 + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
         return new CursorLoader(
-                getContext(),
+                Objects.requireNonNull(getContext()),
                 MediaStore.Files.getContentUri("external"),
                 projection,
                 selection,
@@ -189,54 +183,5 @@ public class CabinFragment extends Fragment implements LoaderManager.LoaderCallb
             }
         }
     }
-
-    public class ActionModeCallback implements ActionMode.Callback {
-
-
-        @Override
-        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-            Log.i("TEST", "====================Testing===================");
-            Tools.setSystemBarColor((Activity) getContext(), R.color.colorPrimaryDark);
-            actionMode.getMenuInflater().inflate(R.menu.menu_upload, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-            int id = menuItem.getItemId();
-            if (id == R.id.action_upload) {
-                //uploadIMGs();
-                actionMode.finish();
-                return true;
-            }
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            //CabinFragment.mMediaStoreAdapter.clearSelections();
-
-            //cabinFragment = (CabinFragment)getFragmentManager().findFragmentByTag("MY_FRAGMENT");
-            //if (cabinFragment != null && cabinFragment.isVisible()) {
-                // add your code here
-                SiteFragment.msiteMeadiaAdapter.clearSelections();
-            //}
-
-            //if (cabinFragment.isVisible()){
-            SiteFragment.msiteMeadiaAdapter.clearSelections();
-            //}
-
-
-            //actionMode = null;
-            Tools.setSystemBarColor((Activity) getContext(), R.color.colorPrimary);
-
-        }
-    }
-
 
 }

@@ -1,14 +1,20 @@
 
-isquid:CommentedOutCodeLine<"<This block of commented-out lines of code should be removed.(ýÇ–Ò8ü•Òü½-
-isquid:CommentedOutCodeLineJ"<This block of commented-out lines of code should be removed.(µ´é8ü•Òü½-
-“"squid:ClassVariableVisibilityCheck$"^Make mMediaStoreAdapter a static final constant or non-public and provide accessors if needed.(Ô÷¥ë8ü•Òü½-
-Tsquid:S26964"6Make the enclosing method "static" or remove this set.(øþÃò8ü•Òü½-
-osquid:CommentedOutCodeLine‡"<This block of commented-out lines of code should be removed.(ƒ´îÛúÿÿÿÿ8ü•Òü½-
-ˆsquid:S1450%"eRemove the "mThumbnailRecyclerView" field and declare it as a local variable in the relevant methods.(Îé¨±øÿÿÿÿ8ü•Òü½-
-nsquid:S00100±"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ð²É8ü•Òü½-
-rsquid:UselessImportCheck"GRemove this unused import 'android.support.v4.app.FragmentTransaction'.(´ÅŽ‰8Ž€‹ª½-
-nsquid:CommentedOutCodeLineY"<This block of commented-out lines of code should be removed.(ÂÖÀ´þÿÿÿÿ8’åÕËÂ-
 vsquid:ModifiersOrderCheck#"EReorder the modifiers to comply with the Java Language Specification.(ÞÏÝ“úÿÿÿÿ8ü•Òü½-
-Rsquid:S1066s"/Merge this if statement with the enclosing one.(Öìïüÿÿÿÿ8ü•Òü½-
+isquid:CommentedOutCodeLine5"<This block of commented-out lines of code should be removed.(Õä·’8†óŒèÄ-
+nsquid:CommentedOutCodeLineG"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8ÙŽèÄ-
+isquid:CommentedOutCodeLine;"<This block of commented-out lines of code should be removed.(ÉÅ¾ˆ8ÙŽèÄ-
+˜"squid:ClassVariableVisibilityCheck%"^Make msiteMeadiaAdapter a static final constant or non-public and provide accessors if needed.(çØ¸Äûÿÿÿÿ8ûŒ€èÄ-
+isquid:CommentedOutCodeLineL"<This block of commented-out lines of code should be removed.(Øâ²Ô8ÙŽèÄ-
+osquid:CommentedOutCodeLine¡"<This block of commented-out lines of code should be removed.(ƒ´îÛúÿÿÿÿ8ü•Òü½-
+Ssquid:S1066"/Merge this if statement with the enclosing one.(Öìïüÿÿÿÿ8ü•Òü½-
+isquid:CommentedOutCodeLineE"<This block of commented-out lines of code should be removed.(˜ÝÃÈ8ÙŽèÄ-
+nsquid:CommentedOutCodeLine>"<This block of commented-out lines of code should be removed.(ØƒøÐÿÿÿÿÿ8ÙŽèÄ-
+ˆsquid:S1450&"eRemove the "mThumbnailRecyclerView" field and declare it as a local variable in the relevant methods.(Îé¨±øÿÿÿÿ8ü•Òü½-
+Ysquid:S26968"6Make the enclosing method "static" or remove this set.(íåÜÈûÿÿÿÿ8¶«èÄ-
+isquid:CommentedOutCodeLineX"<This block of commented-out lines of code should be removed.(ýÇ–Ò8û¯‡èÄ-
+nsquid:S00100Ë"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ð²É8ü•Òü½-
+[squid:S1444%"8Make this "public static msiteMeadiaAdapter" field final(çØ¸Äûÿÿÿÿ8ûŒ€èÄ-
+isquid:CommentedOutCodeLine$"<This block of commented-out lines of code should be removed.(©å©÷8§§èÄ-
+rsquid:UselessImportCheck"GRemove this unused import 'android.support.v4.app.FragmentTransaction'.(´ÅŽ‰8Ž€‹ª½-
 vsquid:ModifiersOrderCheck""EReorder the modifiers to comply with the Java Language Specification.(“ˆŸâøÿÿÿÿ8ü•Òü½-
-Vsquid:S1444$"8Make this "public static mMediaStoreAdapter" field final(Ô÷¥ë8ü•Òü½-
+nsquid:CommentedOutCodeLines"<This block of commented-out lines of code should be removed.(ÂÖÀ´þÿÿÿÿ8’åÕËÂ-

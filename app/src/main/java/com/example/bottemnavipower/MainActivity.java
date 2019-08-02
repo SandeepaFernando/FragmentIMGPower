@@ -23,10 +23,10 @@ public class MainActivity extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, new CabinFragment());
+        fragmentTransaction.add(R.id.fragment_container, new CabinFragment(), "CABIN");
         fragmentTransaction.commit();
 
-        actionModeCallback = new  ActionModeCallback();
+        actionModeCallback = new ActionModeCallback();
 
 
     }
@@ -70,6 +70,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void enableActionModeForTower(int position) {
+        if (actionMode == null) {
+            actionMode = startSupportActionMode(actionModeCallback);
+        }
+        toggleSelectionForTower(position);
+    }
+
+    private void toggleSelectionForTower(int position) {
+        TowerFragment.mtowerMeadiaAdapter.toggleSelection(position);
+        int count = TowerFragment.mtowerMeadiaAdapter.getSelectedItemCount();
+
+        if (count == 0) {
+            actionMode.finish();
+        } else {
+            actionMode.setTitle(String.valueOf(count));
+            actionMode.invalidate();
+        }
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -78,20 +97,20 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_cabin:
                     FragmentTransaction fragmentTransactionCabin = getSupportFragmentManager().beginTransaction();
-                    fragmentTransactionCabin.replace(R.id.fragment_container, new CabinFragment());
+                    fragmentTransactionCabin.replace(R.id.fragment_container, new CabinFragment(), "CABIN");
                     fragmentTransactionCabin.commit();
                     Log.i("TAB", "CabinFragment");
                     return true;
                 case R.id.navigation_site:
                     FragmentTransaction fragmentTransactionSite = getSupportFragmentManager().beginTransaction();
-                    fragmentTransactionSite.replace(R.id.fragment_container, new SiteFragment());
+                    fragmentTransactionSite.replace(R.id.fragment_container, new SiteFragment(), "SITE");
                     fragmentTransactionSite.commit();
                     CabinFragment.mMediaStoreAdapter.notifyDataSetChanged();
                     Log.i("TAB", "SiteFragment");
                     return true;
                 case R.id.navigation_tower:
                     FragmentTransaction fragmentTransactionTower = getSupportFragmentManager().beginTransaction();
-                    fragmentTransactionTower.replace(R.id.fragment_container, new TowerFragment());
+                    fragmentTransactionTower.replace(R.id.fragment_container, new TowerFragment(), "TOWER");
                     fragmentTransactionTower.commit();
                     Log.i("TAB", "TowerFragment");
                     return true;
@@ -107,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
             Log.i("TEST", "====================Testing===================");
-            Tools.setSystemBarColor(MainActivity.this, R.color.colorPrimaryDark);
+            Tools.setSystemBarColor(MainActivity.this, R.color.colorAccent);
             actionMode.getMenuInflater().inflate(R.menu.menu_upload, menu);
             return true;
         }
@@ -130,8 +149,23 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-            CabinFragment.mMediaStoreAdapter.clearSelections();
-            SiteFragment.msiteMeadiaAdapter.clearSelections();
+            CabinFragment cabinFragment = (CabinFragment) getSupportFragmentManager().findFragmentByTag("CABIN");
+            if (cabinFragment != null && cabinFragment.isVisible()) {
+                // add your code here
+                Log.i("TEST", "CabinFragmentonDestroyActionMode");
+                CabinFragment.mMediaStoreAdapter.clearSelections();
+            }
+
+            SiteFragment siteFragment = (SiteFragment) getSupportFragmentManager().findFragmentByTag("SITE");
+            if (siteFragment != null && siteFragment.isVisible()) {
+                SiteFragment.msiteMeadiaAdapter.clearSelections();
+                Log.i("TEST", "SiteFragmentonDestroyActionMode");
+            }
+
+            TowerFragment towerFragment = (TowerFragment) getSupportFragmentManager().findFragmentByTag("TOWER");
+            if (towerFragment != null && towerFragment.isVisible()){
+                TowerFragment.mtowerMeadiaAdapter.clearSelections();
+            }
 
             actionMode = null;
             Tools.setSystemBarColor(MainActivity.this, R.color.colorPrimary);
