@@ -86,6 +86,10 @@ public class CameraActivity extends AppCompatActivity {
 //                }
 
             bnCamera.setText(R.string.upload_bn);
+        } else {
+            Intent mainactivityIntent = new Intent(CameraActivity.this, MainActivity.class);
+            startActivity(mainactivityIntent);
+            finish();
         }
 
 
