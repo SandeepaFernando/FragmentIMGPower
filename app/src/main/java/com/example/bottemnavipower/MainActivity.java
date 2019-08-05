@@ -100,7 +100,9 @@ public class MainActivity extends AppCompatActivity {
                     FragmentTransaction fragmentTransactionCabin = getSupportFragmentManager().beginTransaction();
                     fragmentTransactionCabin.replace(R.id.fragment_container, new CabinFragment(), TAG_CABIN);
                     fragmentTransactionCabin.commit();
-                    actionMode.finish();
+                    if (actionMode != null) {
+                        actionMode.finish();
+                    }
                     return true;
 
                 case R.id.navigation_site:
@@ -109,7 +111,9 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransactionSite.commit();
                     CabinFragment.mMediaStoreAdapter.notifyDataSetChanged();
                     Log.i("TAB", "SiteFragment");
-                    actionMode.finish();
+                    if (actionMode != null) {
+                        actionMode.finish();
+                    }
                     return true;
 
                 case R.id.navigation_tower:
@@ -117,7 +121,9 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransactionTower.replace(R.id.fragment_container, new TowerFragment(), TAG_TOWER);
                     fragmentTransactionTower.commit();
                     Log.i("TAB", "TowerFragment");
-                    actionMode.finish();
+                    if (actionMode != null) {
+                        actionMode.finish();
+                    }
                     return true;
             }
             return false;

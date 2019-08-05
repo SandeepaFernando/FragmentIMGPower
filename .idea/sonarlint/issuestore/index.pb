@@ -21,3 +21,9 @@ P
 app/build.gradle,f/4/f4a01d6a4fcb971362ec00a83903fd3902f52164
 t
 Dapp/src/main/java/com/example/bottemnavipower/SiteMeadiaAdapter.java,1/e/1e1e8b889a4da67170d31bd1f6698d08d7d8f544
+t
+Dapp/src/main/java/com/example/bottemnavipower/TowerMediaAdapter.java,4/f/4f19e2b847efe58bc6114e9c2e932807deb6a444
+Z
+*app/src/main/res/layout/fragment_tower.xml,0/5/0567689bf4b1ac5664e08fe20a85c830ae9939c8
+S
+#.idea/sonarlint/issuestore/index.pb,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0

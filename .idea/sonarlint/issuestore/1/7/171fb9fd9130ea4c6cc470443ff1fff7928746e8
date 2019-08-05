@@ -1,3 +1,6 @@
 
-\"squid:SwitchLastCaseIsDefaultCheckN""Add a default case to this switch.(øå´¡ÿÿÿÿÿ8Šâÿû½-
-nsquid:CommentedOutCodeLine|"<This block of commented-out lines of code should be removed.(Æ§‚¹ýÿÿÿÿ8Šâÿû½-
+rsquid:S00116"SRename this field "TAG_SITE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‘¶òü8Ñ£ë’Å-
+osquid:CommentedOutCodeLine“"<This block of commented-out lines of code should be removed.(Æ§‚¹ýÿÿÿÿ8Šâÿû½-
+\"squid:SwitchLastCaseIsDefaultCheckb""Add a default case to this switch.(øå´¡ÿÿÿÿÿ8Šâÿû½-
+ssquid:S00116"TRename this field "TAG_TOWER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŠùÒ”8Ñ£ë’Å-
+rsquid:S00116"TRename this field "TAG_CABIN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£´`8¸Ùð’Å-
