@@ -1,12 +1,12 @@
 
-nsquid:S00100²"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğ²É8¬ÚÍÓ½-
+Msquid:S1066e"/Merge this if statement with the enclosing one.(ØØÚ­8¨¯çÄ-
 vsquid:ModifiersOrderCheck""EReorder the modifiers to comply with the Java Language Specification.(“ˆŸâøÿÿÿÿ8÷ÕÊÓ½-
+nsquid:S00100³"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğ²É8¬ÚÍÓ½-
 Vsquid:S1444$"8Make this "public static mMediaStoreAdapter" field final(Ô÷¥ë8–µû½-
-Rsquid:S1066P"/Merge this if statement with the enclosing one.(Î”ØÖùÿÿÿÿ8øš®çÄ-
-Rsquid:S1066t"/Merge this if statement with the enclosing one.(Öìïüÿÿÿÿ8·°Šü½-
-Msquid:S1066d"/Merge this if statement with the enclosing one.(ØØÚ­8¨¯çÄ-
 Tsquid:S26964"6Make the enclosing method "static" or remove this set.(øşÃò8–µû½-
+Ssquid:S1066µ"/Merge this if statement with the enclosing one.(Î”ØÖùÿÿÿÿ8Î¼¬çÄ-
 ˆsquid:S1450%"eRemove the "mThumbnailRecyclerView" field and declare it as a local variable in the relevant methods.(Îé¨±øÿÿÿÿ8Šáü½-
-vsquid:ModifiersOrderCheck#"EReorder the modifiers to comply with the Java Language Specification.(ŞÏİ“úÿÿÿÿ8÷ÕÊÓ½-
-Ssquid:S1066´"/Merge this if statement with the enclosing one.(Î”ØÖùÿÿÿÿ8Î¼¬çÄ-
 “"squid:ClassVariableVisibilityCheck$"^Make mMediaStoreAdapter a static final constant or non-public and provide accessors if needed.(Ô÷¥ë8¨Ğ®ú½-
+vsquid:ModifiersOrderCheck#"EReorder the modifiers to comply with the Java Language Specification.(ŞÏİ“úÿÿÿÿ8÷ÕÊÓ½-
+Rsquid:S1066u"/Merge this if statement with the enclosing one.(Öìïüÿÿÿÿ8·°Šü½-
+Rsquid:S1066P"/Merge this if statement with the enclosing one.(Î”ØÖùÿÿÿÿ8øš®çÄ-

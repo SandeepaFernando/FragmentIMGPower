@@ -24,6 +24,10 @@ public class CameraActivity extends AppCompatActivity {
     Uri image;
     String mCameraFileName;
     String path = "/sdcard/PowerApp/";
+    private String TAG_CABIN = "CABIN";
+    private String TAG_SITE = "SITE";
+    private String TAG_TOWER = "TOWER";
+    private String EXTRA_TAG = "EXTRAFragmet";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +91,29 @@ public class CameraActivity extends AppCompatActivity {
 
             bnCamera.setText(R.string.upload_bn);
         } else {
+
+
+            Intent intent = getIntent();
+            String tag = intent.getStringExtra("EXTRA_CABIN");
+            Log.i("CAMERA", tag);
             Intent mainactivityIntent = new Intent(CameraActivity.this, MainActivity.class);
+
+            switch (tag){
+                case "CABIN":
+                    mainactivityIntent.putExtra(EXTRA_TAG, TAG_CABIN);
+                    break;
+
+                case "SITE":
+                    mainactivityIntent.putExtra(EXTRA_TAG, TAG_SITE);
+                    break;
+
+                case "TOWER":
+                    mainactivityIntent.putExtra(EXTRA_TAG, TAG_TOWER);
+
+            }
             startActivity(mainactivityIntent);
             finish();
+
         }
 
 

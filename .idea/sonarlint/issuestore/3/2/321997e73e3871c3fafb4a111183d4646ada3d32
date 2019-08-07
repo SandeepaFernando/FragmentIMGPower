@@ -1,3 +1,10 @@
 
-gsquid:CommentedOutCodeLineS"<This block of commented-out lines of code should be removed.(‡¿ýûýÿÿÿÿ
-]squid:S1075"ARefactor your code to get this URI from a customizable parameter.(ÐØÕ¥ýÿÿÿÿ
+]squid:S1075"ARefactor your code to get this URI from a customizable parameter.(ÐØÕ¥ýÿÿÿÿ
+rsquid:S00116"TRename this field "TAG_CABIN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£´`8þ¨ƒÆ-
+nsquid:CommentedOutCodeLinec"<This block of commented-out lines of code should be removed.(ì«üÿÿÿÿ8·¿½‡Æ-
+isquid:CommentedOutCodeLine^"<This block of commented-out lines of code should be removed.(—þŒÜ8‚Õó†Æ-
+ssquid:S00116"TRename this field "TAG_TOWER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŠùÒ”8þ¨ƒÆ-
+rsquid:S00116"SRename this field "TAG_SITE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‘¶òü8þ¨ƒÆ-
+Jsquid:S1068",Remove this unused "TAG_SITE" private field.(‘¶òü8³äÔƒÆ-
+gsquid:CommentedOutCodeLineW"<This block of commented-out lines of code should be removed.(‡¿ýûýÿÿÿÿ
+Ksquid:S1068"-Remove this unused "TAG_TOWER" private field.(ŠùÒ”8þ¨ƒÆ-

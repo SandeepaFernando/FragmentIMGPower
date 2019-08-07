@@ -84,7 +84,9 @@ public class SiteFragment extends Fragment implements LoaderManager.LoaderCallba
                 @Override
                 public void onClick(View v) {
                     Intent camintent = new Intent(getContext(), CameraActivity.class);
+                    camintent.putExtra("EXTRA_CABIN", "SITE");
                     startActivity(camintent);
+                    Objects.requireNonNull(getActivity()).finish();
                 }
             });
         }

@@ -84,7 +84,9 @@ public class TowerFragment extends Fragment implements LoaderManager.LoaderCallb
                     @Override
                     public void onClick(View v) {
                         Intent camintent = new Intent(getContext(), CameraActivity.class);
+                        camintent.putExtra("EXTRA_CABIN", "TOWER");
                         startActivity(camintent);
+                        Objects.requireNonNull(getActivity()).finish();
                     }
                 });
             }

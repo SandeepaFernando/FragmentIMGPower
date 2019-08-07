@@ -1,5 +1,6 @@
 package com.example.bottemnavipower;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -25,9 +26,46 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, new CabinFragment(), TAG_CABIN);
-        fragmentTransaction.commit();
+        Intent intent = getIntent();
+        String tag = intent.getStringExtra("EXTRAFragmet");
+        if (tag != null) {
+
+            Log.i("TAG", tag);
+
+            switch (tag) {
+                case "CABIN":
+                    FragmentTransaction fragmentTransactionCabin = getSupportFragmentManager().beginTransaction();
+                    fragmentTransactionCabin.add(R.id.fragment_container, new CabinFragment(), TAG_CABIN);
+                    fragmentTransactionCabin.commit();
+                    Log.i("TAG","CABIN Fragment");
+                    navView.setSelectedItemId(R.id.navigation_cabin);
+                    break;
+
+                case "SITE":
+                    FragmentTransaction fragmentTransactionSite = getSupportFragmentManager().beginTransaction();
+                    fragmentTransactionSite.add(R.id.fragment_container, new SiteFragment(), TAG_SITE);
+                    fragmentTransactionSite.commit();
+                    Log.i("TAG","SITE Fragment");
+                    navView.setSelectedItemId(R.id.navigation_site);
+                    break;
+
+                case "TOWER":
+                    FragmentTransaction fragmentTransactionTower = getSupportFragmentManager().beginTransaction();
+                    fragmentTransactionTower.add(R.id.fragment_container, new TowerFragment(), TAG_TOWER);
+                    fragmentTransactionTower.commit();
+                    Log.i("TAG","TOWER Fragment");
+                    navView.setSelectedItemId(R.id.navigation_tower);
+                    break;
+            }
+
+        } else {
+
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.fragment_container, new CabinFragment(), TAG_CABIN);
+            fragmentTransaction.commit();
+            Log.i("TAG", "Main Frag");
+
+        }
 
         actionModeCallback = new ActionModeCallback();
     }
@@ -95,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Log.i("TAG", "onNavigationItemSelected");
             switch (item.getItemId()) {
                 case R.id.navigation_cabin:
                     FragmentTransaction fragmentTransactionCabin = getSupportFragmentManager().beginTransaction();
