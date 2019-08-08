@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +15,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MediaStoreAdapter extends RecyclerView.Adapter<MediaStoreAdapter.ViewHolder> {
 
@@ -24,6 +25,7 @@ public class MediaStoreAdapter extends RecyclerView.Adapter<MediaStoreAdapter.Vi
     private OnClickListener onClickListener = null;
     private SparseBooleanArray selected_items;
     private int current_selected_idx = -1;
+    Map<Integer, String> uriMap;
 
 
     public void setOnClickListener(OnClickListener onClickListener) {
@@ -40,8 +42,8 @@ public class MediaStoreAdapter extends RecyclerView.Adapter<MediaStoreAdapter.Vi
 
     public MediaStoreAdapter(Activity activity) {
         this.mActivity = activity;
-        //this.mOnClickThumbListener = (OnClickThumbListener) activity;
         selected_items = new SparseBooleanArray();
+        uriMap = new HashMap<>();
     }
 
     @NonNull
@@ -87,13 +89,21 @@ public class MediaStoreAdapter extends RecyclerView.Adapter<MediaStoreAdapter.Vi
 
     private void toggleCheckedIcon(ViewHolder holder, int position) {
         if (selected_items.get(position, false)) {
+            //get selected position
+            Log.i("POSITION", String.valueOf(position));
+            getSelectedUri(position);
+
             holder.imageView_done.setVisibility(View.VISIBLE);
 
-            if (current_selected_idx == position) resetCurrentIndex();
+            if (current_selected_idx == position) {
+                resetCurrentIndex();
+            }
         } else {
             holder.mImageView.setVisibility(View.VISIBLE);
             holder.imageView_done.setVisibility(View.INVISIBLE);
-            if (current_selected_idx == position) resetCurrentIndex();
+            if (current_selected_idx == position) {
+                resetCurrentIndex();
+            }
         }
     }
 
@@ -161,6 +171,7 @@ public class MediaStoreAdapter extends RecyclerView.Adapter<MediaStoreAdapter.Vi
         current_selected_idx = pos;
         if (selected_items.get(pos, false)) {
             selected_items.delete(pos);
+            uriMap.remove(pos);
         } else {
             selected_items.put(pos, true);
         }
@@ -170,6 +181,7 @@ public class MediaStoreAdapter extends RecyclerView.Adapter<MediaStoreAdapter.Vi
     public void clearSelections() {
         if (getItemCount() != 0) {
             selected_items.clear();
+            uriMap.clear();
             notifyDataSetChanged();
         }
     }
@@ -178,16 +190,30 @@ public class MediaStoreAdapter extends RecyclerView.Adapter<MediaStoreAdapter.Vi
         return selected_items.size();
     }
 
-    public List<Integer> getSelectedItems() {
-        List<Integer> items = new ArrayList<>(selected_items.size());
-        for (int i = 0; i < selected_items.size(); i++) {
-            items.add(selected_items.keyAt(i));
-        }
-        return items;
-    }
+//    public List<Integer> getSelectedItems() {
+//        List<Integer> items = new ArrayList<>(selected_items.size());
+//        for (int i = 0; i < selected_items.size(); i++) {
+//            items.add(selected_items.keyAt(i));
+//        }
+//        return items;
+//    }
 
     private void resetCurrentIndex() {
         current_selected_idx = -1;
+    }
+
+    public void getSelectedUri(int position) {
+        int dataIndex = mMediaStoreCursor.getColumnIndex(MediaStore.Files.FileColumns.DATA);
+        mMediaStoreCursor.moveToPosition(position);
+        String dataString = mMediaStoreCursor.getString(dataIndex);
+        Uri mediaUri = Uri.parse(dataString);
+        uriMap.put(position, String.valueOf(mediaUri));
+        Log.i("TAG", uriMap.toString());
+        //return mediaUri;
+    }
+
+    public Map<Integer, String> getUris(){
+        return uriMap;
     }
 
 

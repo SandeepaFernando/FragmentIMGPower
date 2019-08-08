@@ -1,7 +1,9 @@
 package com.example.bottemnavipower;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,15 @@ import android.support.v7.view.ActionMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import net.gotev.uploadservice.MultipartUploadRequest;
+import net.gotev.uploadservice.UploadNotificationConfig;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.UUID;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -18,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private String TAG_CABIN = "CABIN";
     private String TAG_SITE = "SITE";
     private String TAG_TOWER = "TOWER";
+    private ArrayList<String> uriArray;
+    private static String URL = "http://intern1.telco.lk/mapp/upload.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         actionModeCallback = new ActionModeCallback();
+
+        uriArray = new ArrayList<>();
     }
 
     public void enableActionMode(int position) {
@@ -185,12 +200,32 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
             int id = menuItem.getItemId();
             if (id == R.id.action_upload) {
-                //uploadIMGs();
+                //upload Button click
+                //CabinFragment.mMediaStoreAdapter.getSelectedUri();
+                Log.i("UPLOAD", CabinFragment.mMediaStoreAdapter.getUris().toString());
+                //uriArray.add(Arrays.toString(CabinFragment.mMediaStoreAdapter.getUris().values().toArray()));
+
+
+                Iterator myVeryOwnIterator = CabinFragment.mMediaStoreAdapter.getUris().keySet().iterator();
+                while(myVeryOwnIterator.hasNext()) {
+                    Object key=myVeryOwnIterator.next();
+                    //String value=(String)CabinFragment.mMediaStoreAdapter.getUris().get(key);
+                    uriArray.add(CabinFragment.mMediaStoreAdapter.getUris().get(key));
+                    //Toast.makeText(ctx, "Key: "+key+" Value: "+value, Toast.LENGTH_LONG).show();
+                }
+                Log.i("UPLOADARRY", String.valueOf(uriArray));
+
+                for (int i = 0; i < uriArray.size(); i++){
+                    uploadMultipart(uriArray.get(i));
+                }
+
                 actionMode.finish();
+                uriArray.clear();
                 return true;
             }
             return false;
@@ -218,6 +253,33 @@ public class MainActivity extends AppCompatActivity {
             actionMode = null;
             Tools.setSystemBarColor(MainActivity.this, R.color.colorPrimary);
 
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void uploadMultipart(String filePath) {
+        //String caption = etCaption.getText().toString().trim();
+
+        //getting the actual path of the image
+        Log.i("PATH", filePath);
+        //Date caption = new Date();
+
+        //Uploading code
+        try {
+            String uploadId = UUID.randomUUID().toString();
+
+            //Creating a multi part request
+            new MultipartUploadRequest(this, uploadId, URL)
+                    .addFileToUpload(filePath, "imagefile") //Adding file
+                    .addParameter("site_id", "CM0003") //Adding text parameter to the request
+                    .addParameter("image_type", "testing")
+                    .addParameter("security_token", "aaaaaaaaaaaabbbbbbbbb")
+                    .setNotificationConfig(new UploadNotificationConfig())
+                    .setMaxRetries(2)
+                    .startUpload(); //Starting the upload
+        } catch (Exception exc) {
+            Toast.makeText(this, exc.getMessage(), Toast.LENGTH_LONG).show();
+            Log.i("Exception", exc.getMessage());
         }
     }
 
