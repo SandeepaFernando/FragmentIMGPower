@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,9 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SiteMeadiaAdapter extends RecyclerView.Adapter<SiteMeadiaAdapter.ViewHolder> {
 
@@ -24,6 +27,7 @@ public class SiteMeadiaAdapter extends RecyclerView.Adapter<SiteMeadiaAdapter.Vi
     private SiteMeadiaAdapter.OnClickListener onClickListener = null;
     private SparseBooleanArray selected_items;
     private int current_selected_idx = -1;
+    Map<Integer, String> uriMap;
 
 
     public void setOnClickListener(SiteMeadiaAdapter.OnClickListener onClickListener) {
@@ -40,8 +44,8 @@ public class SiteMeadiaAdapter extends RecyclerView.Adapter<SiteMeadiaAdapter.Vi
 
     public SiteMeadiaAdapter(Activity activity) {
         this.mActivity = activity;
-        //this.mOnClickThumbListener = (OnClickThumbListener) activity;
         selected_items = new SparseBooleanArray();
+        uriMap = new HashMap<>();
     }
 
     @NonNull
@@ -88,6 +92,7 @@ public class SiteMeadiaAdapter extends RecyclerView.Adapter<SiteMeadiaAdapter.Vi
     private void toggleCheckedIcon(SiteMeadiaAdapter.ViewHolder holder, int position) {
         if (selected_items.get(position, false)) {
             holder.imageView_done.setVisibility(View.VISIBLE);
+            getSelectedUri(position);
 
             if (current_selected_idx == position) resetCurrentIndex();
         } else {
@@ -161,6 +166,7 @@ public class SiteMeadiaAdapter extends RecyclerView.Adapter<SiteMeadiaAdapter.Vi
         current_selected_idx = pos;
         if (selected_items.get(pos, false)) {
             selected_items.delete(pos);
+            uriMap.remove(pos);
         } else {
             selected_items.put(pos, true);
         }
@@ -170,6 +176,7 @@ public class SiteMeadiaAdapter extends RecyclerView.Adapter<SiteMeadiaAdapter.Vi
     public void clearSelections() {
         if (getItemCount() != 0) {
             selected_items.clear();
+            uriMap.clear();
             notifyDataSetChanged();
         }
     }
@@ -188,5 +195,19 @@ public class SiteMeadiaAdapter extends RecyclerView.Adapter<SiteMeadiaAdapter.Vi
 
     private void resetCurrentIndex() {
         current_selected_idx = -1;
+    }
+
+    public void getSelectedUri(int position) {
+        int dataIndex = mMediaStoreCursor.getColumnIndex(MediaStore.Files.FileColumns.DATA);
+        mMediaStoreCursor.moveToPosition(position);
+        String dataString = mMediaStoreCursor.getString(dataIndex);
+        Uri mediaUri = Uri.parse(dataString);
+        uriMap.put(position, String.valueOf(mediaUri));
+        Log.i("TAG", uriMap.toString());
+        //return mediaUri;
+    }
+
+    public Map<Integer, String> getUris(){
+        return uriMap;
     }
 }

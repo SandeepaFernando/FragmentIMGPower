@@ -1,7 +1,17 @@
 
-ssquid:S00116"TRename this field "TAG_TOWER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŠùÒ”8Ñ£ë’Å-
-osquid:CommentedOutCodeLineÀ"<This block of commented-out lines of code should be removed.(Æ§‚¹ýÿÿÿÿ8ÝÚÆ-
-rsquid:S00116"TRename this field "TAG_CABIN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£´`8¸Ùð’Å-
-rsquid:S00116"SRename this field "TAG_SITE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‘¶òü8Ñ£ë’Å-
-W"squid:SwitchLastCaseIsDefaultCheck#""Add a default case to this switch.(¹ŠÒÓ8Š‰ŠÓÆ-
-]"squid:SwitchLastCaseIsDefaultCheck‰""Add a default case to this switch.(øå´¡ÿÿÿÿÿ8ÝÚÆ-
+rsquid:S00116#"SRename this field "TAG_SITE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‘¶òü8Ñ£ë’Å-
+rsquid:UselessImportCheck"BRemove this unused import 'com.koushikdutta.async.http.body.Part'.(®ÂñÚøÿÿÿÿ8óˆ Ç-
+osquid:CommentedOutCodeLineà"<This block of commented-out lines of code should be removed.(ÉÀÉãûÿÿÿÿ8óˆ Ç-
+jsquid:CommentedOutCodeLineŠ"<This block of commented-out lines of code should be removed.(ÕÖþ8§žÇ-
+vsquid:UselessImportCheck"FRemove this unused import 'com.koushikdutta.async.http.body.FilePart'.(â²ºéÿÿÿÿÿ8óˆ Ç-
+jsquid:CommentedOutCodeLineØ"<This block of commented-out lines of code should be removed.(œ½‡Ñ8óˆ Ç-
+esquid:UselessImportCheck"5Remove this unused import 'com.koushikdutta.ion.Ion'.(µóÐ×úÿÿÿÿ8ªì–Ç-
+W"squid:SwitchLastCaseIsDefaultCheck5""Add a default case to this switch.(¹ŠÒÓ8Š‰ŠÓÆ-
+]"squid:SwitchLastCaseIsDefaultCheck""Add a default case to this switch.(øå´¡ÿÿÿÿÿ8ÝÚÆ-
+ssquid:S00116$"TRename this field "TAG_TOWER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŠùÒ”8Ñ£ë’Å-
+lsquid:S3008&"NRename this field "URL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(âŒîµ8Ê’ÆƒÇ-
+Tsquid:UselessImportCheck")Remove this unused import 'java.io.File'.(†Ð¥Å8óˆ Ç-
+osquid:CommentedOutCodeLineÞ"<This block of commented-out lines of code should be removed.(À‘ýÑûÿÿÿÿ8óˆ Ç-
+jsquid:CommentedOutCodeLineŽ"<This block of commented-out lines of code should be removed.(¿ØëÕ8§žÇ-
+rsquid:S00116""TRename this field "TAG_CABIN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£´`8¸Ùð’Å-
+osquid:CommentedOutCodeLineÖ"<This block of commented-out lines of code should be removed.(§ÿ¾òùÿÿÿÿ8óˆ Ç-

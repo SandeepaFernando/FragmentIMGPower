@@ -1,8 +1,8 @@
 
-gsquid:CommentedOutCodeLineW"<This block of commented-out lines of code should be removed.(‡¿ýûýÿÿÿÿ
-rsquid:S00116"TRename this field "TAG_CABIN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£´`8þ¨ƒÆ-
-ssquid:S00116"TRename this field "EXTRA_TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(å‡õ8˜ËÿÒÆ-
+W"squid:SwitchLastCaseIsDefaultChecke""Add a default case to this switch.(¹ŠÒÓ8ºßëÒÆ-
 ]squid:S1075"ARefactor your code to get this URI from a customizable parameter.(ÐØÕ¥ýÿÿÿÿ
 rsquid:S00116"SRename this field "TAG_SITE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‘¶òü8þ¨ƒÆ-
-W"squid:SwitchLastCaseIsDefaultChecke""Add a default case to this switch.(¹ŠÒÓ8ºßëÒÆ-
+ssquid:S00116"TRename this field "EXTRA_TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(å‡õ8˜ËÿÒÆ-
+rsquid:S00116"TRename this field "TAG_CABIN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£´`8þ¨ƒÆ-
+gsquid:CommentedOutCodeLineW"<This block of commented-out lines of code should be removed.(‡¿ýûýÿÿÿÿ
 ssquid:S00116"TRename this field "TAG_TOWER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŠùÒ”8þ¨ƒÆ-

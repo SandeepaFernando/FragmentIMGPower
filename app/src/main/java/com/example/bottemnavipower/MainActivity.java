@@ -1,5 +1,6 @@
 package com.example.bottemnavipower;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,15 +13,18 @@ import android.support.v7.view.ActionMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
+import net.gotev.uploadservice.ServerResponse;
+import net.gotev.uploadservice.UploadInfo;
 import net.gotev.uploadservice.UploadNotificationConfig;
+import net.gotev.uploadservice.UploadService;
+import net.gotev.uploadservice.UploadStatusDelegate;
 
+import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.UUID;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private String TAG_CABIN = "CABIN";
     private String TAG_SITE = "SITE";
     private String TAG_TOWER = "TOWER";
-    private ArrayList<String> uriArray;
+    private ArrayList<String> uriArrayCabin;
+    private ArrayList<String> uriArraySite;
+    private ArrayList<String> uriArrayTower;
     private static String URL = "http://intern1.telco.lk/mapp/upload.php";
 
     @Override
@@ -38,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        // setup the broadcast action namespace string which will
+        // be used to notify upload status.
+        // Gradle automatically generates proper variable as below.
+        UploadService.NAMESPACE = BuildConfig.APPLICATION_ID;
+        // Or, you can define it manually.
+        UploadService.NAMESPACE = "com.example.bottemnavipower";
 
         Intent intent = getIntent();
         String tag = intent.getStringExtra("EXTRAFragmet");
@@ -50,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                     FragmentTransaction fragmentTransactionCabin = getSupportFragmentManager().beginTransaction();
                     fragmentTransactionCabin.add(R.id.fragment_container, new CabinFragment(), TAG_CABIN);
                     fragmentTransactionCabin.commit();
-                    Log.i("TAG","CABIN Fragment");
+                    Log.i("TAG", "CABIN Fragment");
                     navView.setSelectedItemId(R.id.navigation_cabin);
                     break;
 
@@ -58,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     FragmentTransaction fragmentTransactionSite = getSupportFragmentManager().beginTransaction();
                     fragmentTransactionSite.add(R.id.fragment_container, new SiteFragment(), TAG_SITE);
                     fragmentTransactionSite.commit();
-                    Log.i("TAG","SITE Fragment");
+                    Log.i("TAG", "SITE Fragment");
                     navView.setSelectedItemId(R.id.navigation_site);
                     break;
 
@@ -66,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     FragmentTransaction fragmentTransactionTower = getSupportFragmentManager().beginTransaction();
                     fragmentTransactionTower.add(R.id.fragment_container, new TowerFragment(), TAG_TOWER);
                     fragmentTransactionTower.commit();
-                    Log.i("TAG","TOWER Fragment");
+                    Log.i("TAG", "TOWER Fragment");
                     navView.setSelectedItemId(R.id.navigation_tower);
                     break;
             }
@@ -82,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
 
         actionModeCallback = new ActionModeCallback();
 
-        uriArray = new ArrayList<>();
+        uriArrayCabin = new ArrayList<>();
+        uriArraySite = new ArrayList<>();
+        uriArrayTower = new ArrayList<>();
     }
 
     public void enableActionMode(int position) {
@@ -184,7 +199,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
     public class ActionModeCallback implements ActionMode.Callback {
 
 
@@ -205,27 +219,59 @@ public class MainActivity extends AppCompatActivity {
         public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
             int id = menuItem.getItemId();
             if (id == R.id.action_upload) {
-                //upload Button click
-                //CabinFragment.mMediaStoreAdapter.getSelectedUri();
-                Log.i("UPLOAD", CabinFragment.mMediaStoreAdapter.getUris().toString());
-                //uriArray.add(Arrays.toString(CabinFragment.mMediaStoreAdapter.getUris().values().toArray()));
+                CabinFragment cabinFragment = (CabinFragment) getSupportFragmentManager().findFragmentByTag(TAG_CABIN);
+                if (cabinFragment != null && cabinFragment.isVisible()) {
+                    Iterator IteratorCabin = CabinFragment.mMediaStoreAdapter.getUris().keySet().iterator();
+                    while (IteratorCabin.hasNext()) {
+                        Object key = IteratorCabin.next();
+                        uriArrayCabin.add(CabinFragment.mMediaStoreAdapter.getUris().get(key));
+                    }
+                    Log.i("CABINURI", uriArrayCabin.toString());
 
-
-                Iterator myVeryOwnIterator = CabinFragment.mMediaStoreAdapter.getUris().keySet().iterator();
-                while(myVeryOwnIterator.hasNext()) {
-                    Object key=myVeryOwnIterator.next();
-                    //String value=(String)CabinFragment.mMediaStoreAdapter.getUris().get(key);
-                    uriArray.add(CabinFragment.mMediaStoreAdapter.getUris().get(key));
-                    //Toast.makeText(ctx, "Key: "+key+" Value: "+value, Toast.LENGTH_LONG).show();
+                    for (int i = 0; i < uriArrayCabin.size(); i++) {
+                        uploadMultipart(uriArrayCabin.get(i), "cabin");
+                    }
                 }
-                Log.i("UPLOADARRY", String.valueOf(uriArray));
 
-                for (int i = 0; i < uriArray.size(); i++){
-                    uploadMultipart(uriArray.get(i));
+                SiteFragment siteFragment = (SiteFragment) getSupportFragmentManager().findFragmentByTag(TAG_SITE);
+                if (siteFragment != null && siteFragment.isVisible()) {
+                    Iterator IteratorSite = SiteFragment.msiteMeadiaAdapter.getUris().keySet().iterator();
+                    while (IteratorSite.hasNext()) {
+                        Object key = IteratorSite.next();
+                        uriArraySite.add(SiteFragment.msiteMeadiaAdapter.getUris().get(key));
+                    }
+                    Log.i("SITEURI", uriArraySite.toString());
+
+                    for (int i = 0; i < uriArraySite.size(); i++) {
+                        uploadMultipart(uriArraySite.get(i), "site");
+                    }
+                }
+
+                TowerFragment towerFragment = (TowerFragment) getSupportFragmentManager().findFragmentByTag(TAG_TOWER);
+                if (towerFragment != null && towerFragment.isVisible()) {
+                    Iterator IteratorTower = TowerFragment.mtowerMeadiaAdapter.getUris().keySet().iterator();
+                    while (IteratorTower.hasNext()) {
+                        Object key = IteratorTower.next();
+                        uriArrayTower.add(TowerFragment.mtowerMeadiaAdapter.getUris().get(key));
+                    }
+                    Log.i("TOWERURI", uriArrayTower.toString());
+
+                    for (int i = 0; i < uriArrayTower.size(); i++) {
+                        uploadMultipart(uriArrayTower.get(i), "tower");
+                    }
                 }
 
                 actionMode.finish();
-                uriArray.clear();
+//
+//                if (!uriArrayCabin.isEmpty()) {
+//                    uriArrayCabin.clear();
+//                }
+//                if (!uriArraySite.isEmpty()){
+//                    uriArraySite.clear();
+//                }
+//                if (!uriArrayTower.isEmpty()){
+//                    uriArrayTower.clear();
+//                }
                 return true;
             }
             return false;
@@ -238,17 +284,20 @@ public class MainActivity extends AppCompatActivity {
                 // add your code here
                 Log.i("TEST", "CabinFragmentonDestroyActionMode");
                 CabinFragment.mMediaStoreAdapter.clearSelections();
+                uriArrayCabin.clear();
             }
 
             SiteFragment siteFragment = (SiteFragment) getSupportFragmentManager().findFragmentByTag(TAG_SITE);
             if (siteFragment != null && siteFragment.isVisible()) {
                 SiteFragment.msiteMeadiaAdapter.clearSelections();
                 Log.i("TEST", "SiteFragmentonDestroyActionMode");
+                uriArraySite.clear();
             }
 
             TowerFragment towerFragment = (TowerFragment) getSupportFragmentManager().findFragmentByTag(TAG_TOWER);
             if (towerFragment != null && towerFragment.isVisible()) {
                 TowerFragment.mtowerMeadiaAdapter.clearSelections();
+                uriArrayTower.clear();
             }
             actionMode = null;
             Tools.setSystemBarColor(MainActivity.this, R.color.colorPrimary);
@@ -257,30 +306,53 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void uploadMultipart(String filePath) {
-        //String caption = etCaption.getText().toString().trim();
-
-        //getting the actual path of the image
+    public void uploadMultipart(final String filePath, final String img_type) {
         Log.i("PATH", filePath);
-        //Date caption = new Date();
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    new MultipartUploadRequest(MainActivity.this, URL)
+                            .addFileToUpload(filePath, "imagefile")
+                            .addParameter("site_id", "sdfs")
+                            .addParameter("image_type", img_type)
+                            .addParameter("security_token", "sfgrg")
+                            .setUtf8Charset()
+                            .setNotificationConfig(new UploadNotificationConfig())
+                            .setDelegate(new UploadStatusDelegate() {
+                                @Override
+                                public void onProgress(Context context, UploadInfo uploadInfo) {
+                                    Log.i("UPLOAD", String.valueOf(uploadInfo.getUploadedBytes()));
+                                }
 
-        //Uploading code
-        try {
-            String uploadId = UUID.randomUUID().toString();
+                                @Override
+                                public void onError(Context context, UploadInfo uploadInfo, ServerResponse serverResponse, Exception exception) {
+                                    Log.e("UPLOAD", "Error", exception);
+                                }
 
-            //Creating a multi part request
-            new MultipartUploadRequest(this, uploadId, URL)
-                    .addFileToUpload(filePath, "imagefile") //Adding file
-                    .addParameter("site_id", "CM0003") //Adding text parameter to the request
-                    .addParameter("image_type", "testing")
-                    .addParameter("security_token", "aaaaaaaaaaaabbbbbbbbb")
-                    .setNotificationConfig(new UploadNotificationConfig())
-                    .setMaxRetries(2)
-                    .startUpload(); //Starting the upload
-        } catch (Exception exc) {
-            Toast.makeText(this, exc.getMessage(), Toast.LENGTH_LONG).show();
-            Log.i("Exception", exc.getMessage());
-        }
+                                @Override
+                                public void onCompleted(Context context, UploadInfo uploadInfo, ServerResponse serverResponse) {
+                                    Log.i("UPLOAD", serverResponse.toString());
+                                }
+
+                                @Override
+                                public void onCancelled(Context context, UploadInfo uploadInfo) {
+                                    Log.i("UPLOAD", uploadInfo.toString());
+                                }
+                            })
+                            .setMethod("POST")
+                            .startUpload();
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        thread.start();
+
     }
 
 

@@ -27,3 +27,5 @@ Z
 *app/src/main/res/layout/fragment_tower.xml,0/5/0567689bf4b1ac5664e08fe20a85c830ae9939c8
 S
 #.idea/sonarlint/issuestore/index.pb,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0
+S
+#app/src/main/res/values/strings.xml,d/2/d2281fbb3027de2722081a53408dd77628bf080e
