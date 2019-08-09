@@ -1,6 +1,7 @@
 package com.example.bottemnavipower;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -15,7 +16,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import net.gotev.uploadservice.MultipartUploadRequest;
+import net.gotev.uploadservice.ServerResponse;
+import net.gotev.uploadservice.UploadInfo;
+import net.gotev.uploadservice.UploadNotificationConfig;
+import net.gotev.uploadservice.UploadStatusDelegate;
+
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 import java.util.Date;
 
 public class CameraActivity extends AppCompatActivity {
@@ -28,6 +37,8 @@ public class CameraActivity extends AppCompatActivity {
     private String TAG_SITE = "SITE";
     private String TAG_TOWER = "TOWER";
     private String EXTRA_TAG = "EXTRAFragmet";
+    private static String URL = "http://intern1.telco.lk/mapp/upload.php";
+    private String fragment_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +50,24 @@ public class CameraActivity extends AppCompatActivity {
 
         cameraIntent();
         createdirectory();
+
+        Intent intent = getIntent();
+        String tag = intent.getStringExtra("EXTRA_CABIN");
+        Log.i("CAMERA", tag);
+        switch (tag) {
+            case "CABIN":
+                fragment_type = "cabin";
+                break;
+
+            case "SITE":
+                fragment_type = "site";
+                break;
+
+            case "TOWER":
+                fragment_type = "tower";
+                break;
+
+        }
 
     }
 
@@ -84,21 +113,23 @@ public class CameraActivity extends AppCompatActivity {
                 previewImage.setImageURI(image);
                 previewImage.setVisibility(View.VISIBLE);
             }
-//                File file = new File(mCameraFileName);
-//                if (!file.exists()) {
-//                    file.mkdir();
-//                }
 
             bnCamera.setText(R.string.upload_bn);
+            Log.i("CAMERAURI", mCameraFileName);
+            bnCamera.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    uploadData(mCameraFileName, fragment_type);
+                }
+            });
+
         } else {
-
-
             Intent intent = getIntent();
             String tag = intent.getStringExtra("EXTRA_CABIN");
             Log.i("CAMERA", tag);
             Intent mainactivityIntent = new Intent(CameraActivity.this, MainActivity.class);
 
-            switch (tag){
+            switch (tag) {
                 case "CABIN":
                     mainactivityIntent.putExtra(EXTRA_TAG, TAG_CABIN);
                     break;
@@ -109,13 +140,83 @@ public class CameraActivity extends AppCompatActivity {
 
                 case "TOWER":
                     mainactivityIntent.putExtra(EXTRA_TAG, TAG_TOWER);
+                    break;
 
             }
             startActivity(mainactivityIntent);
             finish();
-
         }
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void uploadData(final String filePath, final String img_type) {
+        Log.i("PATH", filePath);
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    new MultipartUploadRequest(CameraActivity.this, URL)
+                            .addFileToUpload(filePath, "imagefile")
+                            .addParameter("site_id", "sdfs")
+                            .addParameter("image_type", img_type)
+                            .addParameter("security_token", "sfgrg")
+                            .setUtf8Charset()
+                            .setNotificationConfig(new UploadNotificationConfig())
+                            .setDelegate(new UploadStatusDelegate() {
+                                @Override
+                                public void onProgress(Context context, UploadInfo uploadInfo) {
+                                    Log.i("UploadInfo", String.valueOf(uploadInfo.getUploadedBytes()));
+                                }
+
+                                @Override
+                                public void onError(Context context, UploadInfo uploadInfo, ServerResponse serverResponse, Exception exception) {
+                                    Log.e("UPLOAD", "Error", exception);
+                                }
+
+                                @Override
+                                public void onCompleted(Context context, UploadInfo uploadInfo, ServerResponse serverResponse) {
+                                    Log.i("ServerResponse", serverResponse.toString());
+                                    Intent intent = getIntent();
+                                    String tag = intent.getStringExtra("EXTRA_CABIN");
+                                    Log.i("CAMERA", tag);
+                                    Intent mainactivityIntent = new Intent(CameraActivity.this, MainActivity.class);
+
+                                    switch (tag) {
+                                        case "CABIN":
+                                            mainactivityIntent.putExtra(EXTRA_TAG, TAG_CABIN);
+                                            break;
+
+                                        case "SITE":
+                                            mainactivityIntent.putExtra(EXTRA_TAG, TAG_SITE);
+                                            break;
+
+                                        case "TOWER":
+                                            mainactivityIntent.putExtra(EXTRA_TAG, TAG_TOWER);
+                                            break;
+
+                                    }
+                                    startActivity(mainactivityIntent);
+                                    finish();
+                                }
+
+                                @Override
+                                public void onCancelled(Context context, UploadInfo uploadInfo) {
+                                    Log.i("UploadInfoOnCancelled", uploadInfo.toString());
+                                }
+                            })
+                            .setMethod("POST")
+                            .startUpload();
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        thread.start();
 
     }
 }
+
